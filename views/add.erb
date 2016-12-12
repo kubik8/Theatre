@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="pl">
+	<head>
+		  <title>Teatr</title>
+		    <meta charset="utf-8">
+</head>
+<body>
+	<p>janusz:<br> <%= @a %></p>
+	<p>janusz2:<br> <%= @b %></p>
+	<p>janusz3:<br> <%= @results.class %></p>
+<% @results.each do |val| %>
+   <%= "#{val['name']}" %>
+<% end %>
+<form action="/add/" method="POST">
+    Podaj miejsce do dodania: <input type="text" name="place">
+    <br/>
+    <input type="submit">
+</form>
+<a href="/add"> dodaj </a>
+</body>
+</html>

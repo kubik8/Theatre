@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="pl">
+	<head>
+		  <title>Teatr</title>
+		    <meta charset="utf-8">
+</head>
+<body>
+	<table>
+<% @results.each do |val| %>
+<tr>
+<td>
+   <%= "#{val['id']}" %>
+   </td>
+   <td>
+   <%= "#{val['name']}" %>
+   </td>
+<% end %>
+</tr>
+</table>
+<form action="/add/" method="POST">
+    Podaj miejsce do dodania: <input type="text" name="place">
+    <br/>
+    <input type="submit">
+</form>
+</body>
+</html>
