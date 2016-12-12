@@ -7,8 +7,8 @@ require "mysql2"
 require_relative "database_info"
 
 def read
-	  client_read = Mysql2::Client.new(:host => @host, :username => @username, 
-	:port => @port_read, :database => @database, :password => @password)
+	  client_read = Mysql2::Client.new(:host => $host, :username => $username, 
+	:port => $port_read, :database => $database, :password => $password)
 
 
 
@@ -29,8 +29,8 @@ end
 post '/add/' do
 	read
 	place = params[:place] || "Nobody"
-	  client_write = Mysql2::Client.new(:host => @host, :username => @username, 
-	:port => @port_write, :database => @database, :password => @password)
+	  client_write = Mysql2::Client.new(:host => $host, :username => $username, 
+	:port => $port_write, :database => $database, :password => $password)
 	  erb :index, :locals => {'place' => place}
 
   @results2 = client_write.query("INSERT INTO zones (name) VALUES ('" + place + "')")
