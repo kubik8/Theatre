@@ -1,0 +1,101 @@
+<div class="page-header">
+  <h2><font color="red">W</font>ybór miejsc</h2> 
+</div>
+<div class="row top-default">
+	<div class="col-sm-8"><h3><strong>Spektakl:</strong> {{reservation.spectacle}} <small><a ui-sref="reservation.spectacles">zmień</a></small></h3></div>
+	<div class="col-sm-4">
+		<div class="row">
+			<div class="col-md-2">
+				<h5><label>Scena: </label></h5>
+			</div>
+			<div class="col-md-10">
+				<select class="form-control" ng-model="reservation.stage" ng-options="f for f in stages"><option></option></select>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-2">
+				<h5><label>Data: </label></h5>
+			</div>
+			<div class="col-md-10">
+				<select class="form-control" ng-model="reservation.date" ng-options="f for f in dates"><option></option></select>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="content">
+	<div class="table-responsive">
+		<table class="table table-borderless">
+			<tbody>
+				<tr>
+					<td id="info" colspan="100%"><p>Scena Świebodzka</p></td>
+				</tr>
+				<tr>
+					<td id="stage" colspan="100%"><div style="width:50%">SCENA</div></td>
+				</tr>
+				<tr ng-repeat="row in seats">
+					<td ng-repeat="seat in row" class="text-center">
+						<a class="seat available" ng-click="handleSeatSelected(seat)" 
+							ng-class="{'available': seat.status == 'available', 'selected': seat.status == 'selected',
+							'blocked': seat.status == 'blocked'}">
+							{{seat.number}}
+						</a>
+					</td>					
+			</tbody>
+		</table>
+	</div>
+</div>
+<div class="content">
+	<legend><font color="red">W</font>ybrane miejsca</legend>
+	<div class="alert alert-info text-center" role="alert" ng-hide="reservation.selectedSeats.length > 0">Brak wybranych miejsc</div>
+	<table class="table table-striped table-hover">
+		<tbody>
+			<tr ng-repeat="seat in reservation.selectedSeats">
+				<td>Rząd: {{seat.row}} / Miejsce: {{seat.number}}</td>
+				<td>
+					<select class="form-control" ng-model="seat.ticket" ng-options="f.name + ' - ' + f.price + ' zł' for f in tickets"><option></option></select>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div class="content">
+	<legend><font color="red">O</font>soba rezerwująca</legend>
+	<form name="reservationForm" role="form" ng-init="reservation.client = {}" novalidate>
+		<div class="row">
+			<div class="form-group col-md-6">
+				<label class="control-label" for="email">Email</label>
+				<input name="email" type="email" class="form-control" ng-model="reservation.client.email" required form-validation>
+				<span><a href="">Istniejący klient - pobierz resztę danych</a></span>
+				<span class="help-block" ng-show="reservationForm.email.$error.required && (!reservationForm.email.$pristine || reservationForm.$submitted)">To pole jest wymagane</span>
+				<span class="help-block" ng-show="reservationForm.email.$error.email && !reservationForm.email.$pristine">Wprowadź prawidłowy adres email</span>
+			</div>
+			<div class="form-group col-md-6">
+				<label class="control-label" for="phoneNumber">Telefon</label>
+				<input name="phoneNumber" class="form-control" ng-model="reservation.client.phone" ng-pattern="phoneNumberRgx" required form-validation>
+				<span class="help-block" ng-show="reservationForm.phoneNumber.$error.required && (!reservationForm.phoneNumber.$pristine || reservationForm.$submitted)">To pole jest wymagane</span>
+				<span class="help-block" ng-show="reservationForm.phoneNumber.$error.pattern && !reservationForm.phoneNumber.$pristine">
+					Wprowadź prawidłowy numer telefonu. Poprawne formaty: 123456789, (+ lub 00)(kierunkowy) 123456789
+				</span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="form-group col-md-6">
+				<label class="control-label" for="name">Imie</label>
+				<input name="name" class="form-control" ng-model="reservation.client.name" required form-validation>
+				<span class="help-block" ng-show="reservationForm.name.$invalid && (!reservationForm.name.$pristine || reservationForm.$submitted)">To pole jest wymagane</span>
+			</div>
+			<div class="form-group col-md-6">
+				<label class="control-label" for="lastName">Nazwisko</label>
+				<input name="lastName" class="form-control" ng-model="reservation.client.last_name" required form-validation>
+				<span class="help-block" ng-show="reservationForm.lastName.$invalid && (!reservationForm.lastName.$pristine || reservationForm.$submitted)">To pole jest wymagane</span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="form-group col-sm-offset-8 col-sm-4">
+				<button class="btn btn-lg btn-danger btn-block" ng-click="handleBookBtnClick()" type="submit">Zarezerwuj</button>
+			</div>
+		</div>
+	</form>
+	{{reservation}}
+</div>
+

@@ -16,14 +16,13 @@ def read
 end
 
 
-get '/' do
-  'Hello world!'
-read
-  name = params[:name]
+configure do
+  set :root, File.dirname(__FILE__)
+  set :public_folder, "public/app"
+end
 
-@a = 5
-@b = "dua"
-  erb :index
+get "/" do
+  File.read("public/app/index.html")
 end
 
 post '/add/' do

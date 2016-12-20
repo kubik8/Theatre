@@ -1,0 +1,82 @@
+.content {
+	margin-top: 60px;
+}
+
+.top-default {
+	margin-top: 10px;
+
+}
+
+.glyphicon.large-icon {
+    font-size: 150px;
+}
+
+.help-block {
+	color: red;
+}
+
+.table-borderless tbody tr td,
+.table-borderless tbody tr th,
+.table-borderless thead tr th,
+.table-borderless thead tr td,
+.table-borderless tfoot tr th,
+.table-borderless tfoot tr td {
+    border: none;
+}
+
+#info {	
+	text-align: center;
+}
+
+#stage {
+    padding: 20px;
+}
+
+#stage div {
+    background-color: #e4e4e4;
+    color: #898989;
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: 1px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 3px 0;
+}
+
+a.seat {
+	text-decoration: none;
+	color: white;
+  	width: 21px;
+  	height: 21px;
+  	border-radius: 4px;
+  	padding: 6px;
+  	line-height: 21px;
+  	cursor: default;
+}
+
+a.seat:hover,
+a.seat:focus {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+a.seat.available {
+	background-color: #96c131;
+}
+
+a.seat.available:hover {
+  background: #ae59b3;
+}
+
+a.seat.selected {
+	background-color: red;
+}
+
+a.seat.blocked,
+a.seat.blocked:hover {
+  background: #eaeaea;
+  color: #aaa;
+  box-shadow: 0;
+  cursor: default;
+  border: 0;
+}

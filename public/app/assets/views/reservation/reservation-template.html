@@ -1,0 +1,21 @@
+<nav id="navigation" ng-init="navCollapsed=true" class="navbar navbar-default navbar-fixed-top" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<button ng-click="navCollapsed = !navCollapsed" type="button" class="navbar-toggle collapsed">
+					<span class="sr-only">Przełącz nawigację</span> 
+					<span class="icon-bar"></span> 
+					<span class="icon-bar"></span> 
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" ui-sref="home"><font color="red">T</font>heatre</a>
+			</div>
+			<div uib-collapse="navCollapsed" id="navbar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					<li><a ui-sref="reservation.spectacles" ng-click="navCollapsed = true"><span class="glyphicon glyphicon-calendar"></span> Rezerwacja biletów</a></li>
+				</ul>				
+			</div>
+		</div>
+	</nav>
+	<div class="container content">
+		<div ui-view></div>
+	</div>
