@@ -3,18 +3,7 @@ require 'sinatra'
 
 require "sinatra/activerecord"
 require "mysql2"
-
-require_relative "database_info"
-
-def read
-	  client_read = Mysql2::Client.new(:host => $host, :username => $username, 
-	:port => $port_read, :database => $database, :password => $password)
-
-
-
-  @results = client_read.query("SELECT * FROM zones")
-end
-
+require "./models/customer"
 
 configure do
   set :root, File.dirname(__FILE__)
@@ -22,16 +11,20 @@ configure do
 end
 
 get "/" do
-  File.read("public/app/index.html")
+  #File.read("public/app/index.html")
+  erb :index
 end
 
-post '/add/' do
-	read
-	place = params[:place] || "Nobody"
-	  client_write = Mysql2::Client.new(:host => $host, :username => $username, 
-	:port => $port_write, :database => $database, :password => $password)
-	  erb :index, :locals => {'place' => place}
+post '/submit' do
+    @customer = Customer.new(params[:customer])
+	if @customer.save
+		redirect '/customers'
+	else
+		"Sorry, there was an error!"
+	end
+end
 
-  @results2 = client_write.query("INSERT INTO zones (name) VALUES ('" + place + "')")
-
+get '/customers' do
+  @customers = Customer.all
+  erb :customers
 end

@@ -9,21 +9,23 @@
 </head>
 <body>
 	<table>
-<% @results.each do |val| %>
-<tr>
-<td>
-   <%= "#{val['id']}" %>
-   </td>
-   <td>
-   <%= "#{val['name']}" %>
-   </td>
-<% end %>
-</tr>
+
 </table>
 <form action="/add/" method="POST">
     Podaj miejsce do dodania: <input type="text" name="place">
     <br/>
     <input type="submit">
 </form>
+
+<p>
+  nowe, nowe. dodajemy customera: <br>
+  <form action="/submit" method="POST">
+    <input type="text" name="customer[name]" value="Enter Customer Name" />
+    <input type="text" name="customer[surname]" value="Enter Surname" />
+    <input type="tel" name="customer[phone]" value="Enter phone" />
+    <input type="email" name="customer[email]" value="Enter email" />
+    <input type="submit" value="Dodaj customera" />
+  </form>
+</p>
 </body>
 </html>
