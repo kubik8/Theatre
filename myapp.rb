@@ -56,7 +56,10 @@ end
 get '/TicketsPriceGroup/:id' do
   id = params[:id]
   content_type :json
-  TicketPriceGroup.find(id).to_json
+  @jsonToBeSend = TicketPriceGroup.find(id).to_json
+  @jsonToBeSend = JSON.parse(@jsonToBeSend)
+  @jsonToBeSend[:price] = Ticket.where(id: id).pluck(:price)[0] 
+  @jsonToBeSend.to_json
 end
 
 
