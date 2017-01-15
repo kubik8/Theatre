@@ -41,6 +41,11 @@ get '/spectacles' do
   Spectacle.all.to_json
 end
 
+get '/stages' do
+  content_type :json
+  Stage.all.to_json
+end
+
 get '/spectacles/:id' do
   id = params[:id]
   content_type :json
@@ -66,10 +71,14 @@ end
 get '/SpectaclePerformeds' do
   content_type :json
   SpectaclePerformed.all.to_json
+
 end
 
 get '/SpectaclePerformeds/:id' do
   id = params[:id]
   content_type :json
-  SpectaclePerformed.find(id).to_json
+  @jsonToBeSend = SpectaclePerformed.find(id).to_json
+  @jsonToBeSend = JSON.parse(@jsonToBeSend)
+  @jsonToBeSend[:name] = Stage.where(id: @jsonToBeSend["stages_id"]).pluck(:name)[0]
+  @jsonToBeSend.to_json
 end
