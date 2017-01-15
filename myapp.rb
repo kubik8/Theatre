@@ -36,6 +36,7 @@ get '/customers/:id' do
   Customer.find(id).to_json
 end
 
+#1
 get '/spectacles' do
   content_type :json
   Spectacle.all.to_json
@@ -46,6 +47,17 @@ get '/stages' do
   Stage.all.to_json
 end
 
+get '/seats' do
+  content_type :json
+  Seat.all.to_json
+end
+
+get '/seatReserveds' do
+  content_type :json
+  SeatReserved.all.to_json
+end
+
+#2
 get '/spectacles/:id' do
   id = params[:id]
   content_type :json
@@ -57,7 +69,7 @@ get '/TicketsPriceGroup' do
   TicketPriceGroup.all.to_json
 end
 
-
+#3
 get '/TicketsPriceGroup/:id' do
   id = params[:id]
   content_type :json
@@ -67,13 +79,13 @@ get '/TicketsPriceGroup/:id' do
   @jsonToBeSend.to_json
 end
 
-
 get '/SpectaclePerformeds' do
   content_type :json
   SpectaclePerformed.all.to_json
 
 end
 
+#4
 get '/SpectaclePerformeds/:id' do
   id = params[:id]
   content_type :json
@@ -81,4 +93,21 @@ get '/SpectaclePerformeds/:id' do
   @jsonToBeSend = JSON.parse(@jsonToBeSend)
   @jsonToBeSend[:name] = Stage.where(id: @jsonToBeSend["stages_id"]).pluck(:name)[0]
   @jsonToBeSend.to_json
+end
+
+#5 rozkład miejsc w wybranej sali i dla danego terminu lista zajętych miejsc
+get '/numberFive/:id' do
+  id = params[:id] # spectacle_performeds_id
+  content_type :json
+  @stages_id = SpectaclePerformed.where(id: id).pluck(:stages_id)[0]
+  @seatRowNumber = Seat.where(stages_id: @stages_id).pluck(:row, :number, :id)
+  seats = Array.new
+  @seatRowNumber.each do |seat|
+  	seatHash = Hash.new
+  	seatHash["row"] = seat[0]
+  	seatHash["number"] = seat[1]
+    seatHash["status"] = SeatReserved.where(spectacle_performeds_id: id, seats_id: seat[2]).exists? # is seat reserved?
+  	seats.push(seatHash)
+  end
+  seats.to_json
 end
