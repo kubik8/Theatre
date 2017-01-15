@@ -46,3 +46,27 @@ get '/spectacles/:id' do
   content_type :json
   Spectacle.find(id).to_json
 end
+
+get '/TicketsPriceGroup' do
+  content_type :json
+  TicketPriceGroup.all.to_json
+end
+
+
+get '/TicketsPriceGroup/:id' do
+  id = params[:id]
+  content_type :json
+  TicketPriceGroup.find(id).to_json
+end
+
+
+get '/SpectaclePerformeds' do
+  content_type :json
+  SpectaclePerformed.all.to_json
+end
+
+get '/SpectaclePerformeds/:id' do
+  id = params[:id]
+  content_type :json
+  SpectaclePerformed.find(id).to_json
+end
