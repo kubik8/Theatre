@@ -3,7 +3,8 @@ require 'sinatra'
 
 require "sinatra/activerecord"
 require "mysql2"
-require "./models/customer"
+require "json"
+require "./models/models"
 
 configure do
   set :root, File.dirname(__FILE__)
@@ -25,6 +26,23 @@ post '/submit' do
 end
 
 get '/customers' do
-  @customers = Customer.all
-  erb :customers
+  content_type :json
+  Customer.all.to_json
+end
+
+get '/customers/:id' do
+  id = params[:id]
+  content_type :json
+  Customer.find(id).to_json
+end
+
+get '/spectacles' do
+  content_type :json
+  Spectacle.all.to_json
+end
+
+get '/spectacles/:id' do
+  id = params[:id]
+  content_type :json
+  Spectacle.find(id).to_json
 end
