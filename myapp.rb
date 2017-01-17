@@ -66,7 +66,7 @@ get '/numberFive/:id' do
   seats.to_json
 end
 
-######### below adresses are just for test / debug purposes
+######### below addresses are just for test / debug purposes
 
 post '/submit' do
     @customer = Customer.new(params[:customer])
