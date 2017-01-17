@@ -1,8 +1,8 @@
 <div class="page-header">
-  <h2><font color="red">W</font>ybór miejsc</h2> 
+  <h2><span style="color:red;">W</span>ybór miejsc</h2> 
 </div>
 <div class="row top-default">
-	<div class="col-sm-8"><h3><strong>Spektakl:</strong> {{reservation.spectacle}} <small><a ui-sref="reservation.spectacles">zmień</a></small></h3></div>
+	<div class="col-sm-8"><h3><strong>Spektakl:</strong> {{spectacle}} <small><a ui-sref="reservation.spectacles">zmień</a></small></h3></div>
 	<div class="col-sm-4">
 		<div class="row">
 			<div class="col-md-2">
@@ -45,21 +45,22 @@
 	</div>
 </div>
 <div class="content">
-	<legend><font color="red">W</font>ybrane miejsca</legend>
+	<legend><span style="color:red;">W</span>ybrane miejsca</legend>
 	<div class="alert alert-info text-center" role="alert" ng-hide="reservation.selectedSeats.length > 0">Brak wybranych miejsc</div>
 	<table class="table table-striped table-hover">
 		<tbody>
 			<tr ng-repeat="seat in reservation.selectedSeats">
 				<td>Rząd: {{seat.row}} / Miejsce: {{seat.number}}</td>
 				<td>
-					<select class="form-control" ng-model="seat.ticket" ng-options="f.name + ' - ' + f.price + ' zł' for f in tickets"><option></option></select>
+					<select class="form-control" ng-model="seat.ticket" ng-change="calculateTotalPrice()" ng-options="f.name + ' - ' + f.price + ' zł' for f in tickets"><option></option></select>
 				</td>
 			</tr>
 		</tbody>
 	</table>
+	<div><p class="lead text-right"><strong>RAZEM:</strong> {{totalPrice | number: 2}} zł</p></div>
 </div>
 <div class="content">
-	<legend><font color="red">O</font>soba rezerwująca</legend>
+	<legend><span style="color:red;">O</span>soba rezerwująca</legend>
 	<form name="reservationForm" role="form" ng-init="reservation.client = {}" novalidate>
 		<div class="row">
 			<div class="form-group col-md-6">
