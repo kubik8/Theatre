@@ -12,8 +12,8 @@ configure do
 end
 
 get "/" do
-  #File.read("public/app/index.html")
-  erb :index
+  File.read("public/app/index.html")
+  #erb :index
 end
 
 post '/submit' do
