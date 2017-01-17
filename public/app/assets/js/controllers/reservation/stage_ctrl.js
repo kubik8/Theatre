@@ -1,7 +1,25 @@
 var stage = angular.module('ta.stage', [ 'ngResource']);
 
-stage.controller('StageCtrl', function($scope, $stateParams) {
+stage.controller('StageCtrl', function($scope, $stateParams, SpectacleSrv, StageSrv) {
 	console.log($stateParams.id);
+
+	SpectacleSrv.get({id: $stateParams.id}, function(response){
+		console.log(response);
+	});
+
+	StageSrv.getTickets({spectacleId: $stateParams.id}, function(response){
+		console.log(response);
+	});
+
+	StageSrv.getSpectaclePerformeds({spectacleId: $stateParams.id}, function(response){
+		console.log(response);
+	});
+
+	StageSrv.getSeats({spectacleId: $stateParams.id}, function(response){
+		console.log(response);
+	});
+
+
 	
 	$scope.reservation = {};
 	$scope.reservation.spectacle = "Dziady";
