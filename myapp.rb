@@ -16,45 +16,10 @@ get "/" do
   #erb :index
 end
 
-post '/submit' do
-    @customer = Customer.new(params[:customer])
-	if @customer.save
-		redirect '/customers'
-	else
-		"Sorry, there was an error!"
-	end
-end
-
-get '/customers' do
-  content_type :json
-  Customer.all.to_json
-end
-
-get '/customers/:id' do
-  id = params[:id]
-  content_type :json
-  Customer.find(id).to_json
-end
-
 #1
 get '/spectacles' do
   content_type :json
   Spectacle.all.to_json
-end
-
-get '/stages' do
-  content_type :json
-  Stage.all.to_json
-end
-
-get '/seats' do
-  content_type :json
-  Seat.all.to_json
-end
-
-get '/seatReserveds' do
-  content_type :json
-  SeatReserved.all.to_json
 end
 
 #2
@@ -62,11 +27,6 @@ get '/spectacles/:id' do
   id = params[:id]
   content_type :json
   Spectacle.find(id).to_json
-end
-
-get '/TicketsPriceGroup' do
-  content_type :json
-  TicketPriceGroup.all.to_json
 end
 
 #3
@@ -77,12 +37,6 @@ get '/TicketsPriceGroup/:id' do
   @jsonToBeSend = JSON.parse(@jsonToBeSend)
   @jsonToBeSend[:price] = Ticket.where(id: id).pluck(:price)[0] 
   @jsonToBeSend.to_json
-end
-
-get '/SpectaclePerformeds' do
-  content_type :json
-  SpectaclePerformed.all.to_json
-
 end
 
 #4
@@ -110,4 +64,51 @@ get '/numberFive/:id' do
   	seats.push(seatHash)
   end
   seats.to_json
+end
+
+######### below adresses are just for test / debug purposes
+
+post '/submit' do
+    @customer = Customer.new(params[:customer])
+	if @customer.save
+		redirect '/customers'
+	else
+		"Sorry, there was an error!"
+	end
+end
+
+get '/customers' do
+  content_type :json
+  Customer.all.to_json
+end
+
+get '/customers/:id' do
+  id = params[:id]
+  content_type :json
+  Customer.find(id).to_json
+end
+
+get '/stages' do
+  content_type :json
+  Stage.all.to_json
+end
+
+get '/seats' do
+  content_type :json
+  Seat.all.to_json
+end
+
+get '/seatReserveds' do
+  content_type :json
+  SeatReserved.all.to_json
+end
+
+get '/TicketsPriceGroup' do
+  content_type :json
+  TicketPriceGroup.all.to_json
+end
+
+get '/SpectaclePerformeds' do
+  content_type :json
+  SpectaclePerformed.all.to_json
 end
