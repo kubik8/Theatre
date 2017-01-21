@@ -39,14 +39,13 @@ get '/TicketsPriceGroup/:id' do
   @jsonToBeSend.to_json
 end
 
-#4
+#4.1
 get '/SpectaclePerformeds/:id' do
   id = params[:id]
   content_type :json
-  @jsonToBeSend = SpectaclePerformed.find(id).to_json
-  @jsonToBeSend = JSON.parse(@jsonToBeSend)
-  @jsonToBeSend[:name] = Stage.where(id: @jsonToBeSend["stages_id"]).pluck(:name)[0]
-  @jsonToBeSend.to_json
+  @stages_id = SpectaclePerformed.where(id: id).pluck(:stages_id)[0]
+  @stagesName = Stage.where(id: @stages_id).pluck(:name)
+  @stagesName.to_json
 end
 
 #5 rozkład miejsc w wybranej sali i dla danego terminu lista zajętych miejsc
@@ -111,4 +110,14 @@ end
 get '/SpectaclePerformeds' do
   content_type :json
   SpectaclePerformed.all.to_json
+end
+
+#4
+get '/SpectaclePerformedsOLD/:id' do
+  id = params[:id]
+  content_type :json
+  @jsonToBeSend = SpectaclePerformed.find(id).to_json
+  @jsonToBeSend = JSON.parse(@jsonToBeSend)
+  @jsonToBeSend[:name] = Stage.where(id: @jsonToBeSend["stages_id"]).pluck(:name)[0]
+  @jsonToBeSend.to_json
 end
