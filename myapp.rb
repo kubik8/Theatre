@@ -39,13 +39,44 @@ get '/TicketsPriceGroup/:id' do
   @jsonToBeSend.to_json
 end
 
-#4.1
-get '/SpectaclePerformeds/:id' do
-  id = params[:id]
+# 4.1
+get '/ScenesForSpectacle/:id' do
+  id = params[:id] #spectacle_id
   content_type :json
-  @stages_id = SpectaclePerformed.where(id: id).pluck(:stages_id)[0]
-  @stagesName = Stage.where(id: @stages_id).pluck(:name)
-  @stagesName.to_json
+  @stages_id = SpectaclePerformed.where(spectacles_id: id).pluck(:stages_id)
+  stages = Hash.new
+  @stages_id.each do |stage|
+    stages[stage] = Stage.where(id: stage).pluck(:name)[0]
+  end
+  puts(stages)
+  stages.to_json
+end
+
+# get '/ScenesForSpectacle/:id' do
+#   id = params[:id] #spectacle_id
+#   content_type :json
+#   @stages_id = SpectaclePerformed.where(spectacles_id: id).pluck(:stages_id)
+#   stages = Array.new
+#   @stages_id.each do |stage|
+#   	stagesHash = Hash.new
+#     stagesHash[stage] = Stage.where(id: stage).pluck(:name)[0]
+#     stages.push(stagesHash)
+#   end
+#   stages.to_json
+# end
+
+#4.2
+get '/spectacle/:spectacleId/scene/:sceneId/schedule' do
+  spectacleId = params[:spectacleId]
+  sceneId = params[:sceneId]
+  a = Array.new
+  a.push(spectacleId)
+  a.push(sceneId)
+  a.to_json
+  # content_type :json
+  # @stages_id = SpectaclePerformed.where(id: id).pluck(:stages_id)[0]
+  # @stagesName = Stage.where(id: @stages_id).pluck(:name)
+  # @stagesName.to_json
 end
 
 #5 rozkład miejsc w wybranej sali i dla danego terminu lista zajętych miejsc
