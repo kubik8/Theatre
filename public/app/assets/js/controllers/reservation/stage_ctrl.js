@@ -47,7 +47,8 @@ stage.controller('StageCtrl', function($scope, $stateParams, SpectacleSrv, Stage
 
 	$scope.generateStage = function(){
 		$scope.showStage = true;
-		$scope.reservation.selectedSeats = [];	
+		$scope.reservation.selectedSeats = [];
+		$scope.reservation.totalPrice = 0;
 		
 		StageSrv.getSeats({spectacleId: $scope.reservation.spectaclePerformed.id}, function(response){
 			$scope.createSeatsArrays(response[response.length-1].row);
@@ -73,6 +74,7 @@ stage.controller('StageCtrl', function($scope, $stateParams, SpectacleSrv, Stage
 	$scope.getSpectaclePerformedsForScene = function(selectedSceneId){
 		$scope.showStage = false;
 		$scope.reservation.selectedSeats = [];
+		$scope.reservation.totalPrice = 0;
 
 		StageSrv.getSpectaclePerformedsForScene({spectacleId: $stateParams.id, sceneId: selectedSceneId}, function(response){
 				$scope.spectaclePerformeds = response;
