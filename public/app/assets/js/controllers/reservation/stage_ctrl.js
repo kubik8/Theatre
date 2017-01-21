@@ -1,11 +1,13 @@
 var stage = angular.module('ta.stage', [ 'ngResource']);
 
-stage.controller('StageCtrl', function($scope, $stateParams, SpectacleSrv, StageSrv) {
+stage.controller('StageCtrl', function($scope, $stateParams, SpectacleSrv, StageSrv, CustomerSrv) {
 	
-	$scope.totalPrice = 0;	
 	$scope.reservation = {};
+	$scope.reservationStatus = "in progress";
+	$scope.reservation.selectedSeats = [];
+	$scope.reservation.totalPrice = 0;
+	$scope.showStage = false;		
 	
-	$scope.reservation.selectedSeats = [];	
 	$scope.phoneNumberRgx = '((00|\\+)(\\d{1,4}[ ]?))?(\\d{9})';
 
 
@@ -13,30 +15,14 @@ stage.controller('StageCtrl', function($scope, $stateParams, SpectacleSrv, Stage
 		$scope.spectacle = response.title;
 	});
 
-	// StageSrv.getTickets({spectacleId: $stateParams.id}, function(response){
-	// 	console.log(response);
-	// });
-
-	// StageSrv.getSpectaclePerformeds({spectacleId: $stateParams.id}, function(response){
-	// 	console.log(response);
-	// });
-
-	StageSrv.getSeats({spectacleId: $stateParams.id}, function(response){
-		$scope.createSeatsArrays(response[response.length-1].row);
-
-		for (var i=0; i < response.length; i++){
-			if(response[i].status == true){
-				response[i].status = "blocked";
-			}
-			else {
-				response[i].status = "available";
-			}
-			$scope.seats[response[i].row - 1].push(response[i]);
-		}
+	StageSrv.getTickets({spectacleId: $stateParams.id}, function(response){
+		$scope.tickets = response;
 	});
 
-	
-	
+	StageSrv.getAllScenesForSpectacle({spectacleId: $stateParams.id}, function(response){
+		$scope.stages = response;
+	});
+
 	$scope.handleSeatSelected = function(seat){
 		if(seat.status == "available"){
 			$scope.reservation.selectedSeats.push(seat);
@@ -52,15 +38,53 @@ stage.controller('StageCtrl', function($scope, $stateParams, SpectacleSrv, Stage
 	}
 	
 	$scope.handleBookBtnClick = function(){
-		console.log($scope.reservation);
+		StageSrv.reservation(null, $scope.reservation, function(){
+			$scope.reservationStatus = "success";
+		}, function(){
+			$scope.reservationStatus = "fail";
+		});
+	}
+
+	$scope.generateStage = function(){
+		$scope.showStage = true;
+		$scope.reservation.selectedSeats = [];	
+		
+		StageSrv.getSeats({spectacleId: $scope.reservation.spectaclePerformed.id}, function(response){
+			$scope.createSeatsArrays(response[response.length-1].row);
+
+			for (var i=0; i < response.length; i++){
+				if(response[i].status == true){
+					response[i].status = "blocked";
+				}
+				else {
+					response[i].status = "available";
+				}
+				$scope.seats[response[i].row - 1].push(response[i]);
+			}
+		});	
+	}
+
+	$scope.getClientData = function(){
+		CustomerSrv.getByEmail({email: $scope.reservation.client.email}, function(response){
+			$scope.reservation.client = response;
+		});
+	}
+
+	$scope.getSpectaclePerformedsForScene = function(selectedSceneId){
+		$scope.showStage = false;
+		$scope.reservation.selectedSeats = [];
+
+		StageSrv.getSpectaclePerformedsForScene({spectacleId: $stateParams.id, sceneId: selectedSceneId}, function(response){
+				$scope.spectaclePerformeds = response;
+		});	
 	}
 
 	$scope.calculateTotalPrice = function(){
-		$scope.totalPrice = 0;
+		$scope.reservation.totalPrice = 0;
 
 		for(var i=0; i < $scope.reservation.selectedSeats.length; i++){
 			if($scope.reservation.selectedSeats[i].ticket != null){
-				$scope.totalPrice += $scope.reservation.selectedSeats[i].ticket.price;
+				$scope.reservation.totalPrice += $scope.reservation.selectedSeats[i].ticket.price;
 			}
 		}
 	}
@@ -73,12 +97,21 @@ stage.controller('StageCtrl', function($scope, $stateParams, SpectacleSrv, Stage
 		}
 	}
 	
-	$scope.stages = ["Scena Świebodzka", "Scena kameralna", "Scena wielka"];	
-	$scope.dates = ["2016-12-05 12:00", "2017-01-06 18:00", "2017-01-23 20:30"];
+	// $scope.stages = [
+	// 	{id: 1, name:"Scena Świebodzka"}, 
+	// 	{id: 2, name:"Scena kameralna"},
+	// 	{id: 3, name:"Scena wielka"}
+	// ];
+
+	// $scope.spectaclePerformeds = [
+	// 	{id: 1, spectacles_id: 1, stages_id: 1, date: "2017-01-12T20:00:00.000Z", name: "Scena Świebodzka"}, 
+	// 	{id: 2, spectacles_id: 1, stages_id: 1, date: "2017-01-13T21:00:00.000Z", name: "Scena Świebodzka"}, 
+	// 	{id: 3, spectacles_id: 1, stages_id: 1, date: "2017-03-12T09:00:00.000Z", name: "Scena Świebodzka"}
+	// ];
 	
-	$scope.tickets = [
-		{name: "Normalny", price: 40.28},
-		{name: "Ulgowy", price: 30.59}
-	];
+	// $scope.tickets = [
+	// 	{name: "Normalny", price: 40.28},
+	// 	{name: "Ulgowy", price: 30.59}
+	// ];
 	
 });

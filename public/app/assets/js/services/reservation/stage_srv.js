@@ -7,11 +7,16 @@ stage.factory('StageSrv', function($resource) {
 			},
 			isArray : true
 		},
-		getSpectaclePerformeds : {
+		getAllScenesForSpectacle : {
 			method : 'GET',
 			params : {
-				source : 'SpectaclePerformeds'
+				source : 'ScenesForSpectacle'
 			},
+			isArray : true
+		},
+		getSpectaclePerformedsForScene : {
+			url : 'spectacle/:spectacleId/scene/:sceneId/schedule',
+			method : 'GET',
 			isArray : true
 		},
 		getSeats : {
@@ -20,6 +25,12 @@ stage.factory('StageSrv', function($resource) {
 				source : 'numberFive'
 			},
 			isArray : true
+		},
+		reservation : {
+			method : 'POST',
+			params : {
+				source : 'reservation'
+			}
 		}
 	});
 

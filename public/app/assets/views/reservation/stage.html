@@ -9,7 +9,7 @@
 				<h5><label>Scena: </label></h5>
 			</div>
 			<div class="col-md-10">
-				<select class="form-control" ng-model="reservation.stage" ng-options="f for f in stages"><option></option></select>
+				<select class="form-control" ng-model="stage" ng-options="f as f.name for f in stages" ng-change="getSpectaclePerformedsForScene(stage.id)"></select>
 			</div>
 		</div>
 		<div class="row">
@@ -17,17 +17,17 @@
 				<h5><label>Data: </label></h5>
 			</div>
 			<div class="col-md-10">
-				<select class="form-control" ng-model="reservation.date" ng-options="f for f in dates"><option></option></select>
+				<select class="form-control" ng-model="reservation.spectaclePerformed" ng-options="f as f.date | date:'yyyy-MM-d, HH:mm' for f in spectaclePerformeds" ng-change="generateStage()"></select>
 			</div>
 		</div>
 	</div>
 </div>
-<div class="content">
+<div class="content" ng-show="showStage">
 	<div class="table-responsive">
 		<table class="table table-borderless">
 			<tbody>
 				<tr>
-					<td id="info" colspan="100%"><p>Scena Świebodzka</p></td>
+					<td id="info" colspan="100%"><p>{{stage.name}}</p></td>
 				</tr>
 				<tr>
 					<td id="stage" colspan="100%"><div style="width:50%">SCENA</div></td>
@@ -57,7 +57,7 @@
 			</tr>
 		</tbody>
 	</table>
-	<div><p class="lead text-right"><strong>RAZEM:</strong> {{totalPrice | number: 2}} zł</p></div>
+	<div><p class="lead text-right"><strong>RAZEM:</strong> {{reservation.totalPrice | number: 2}} zł</p></div>
 </div>
 <div class="content">
 	<legend><span style="color:red;">O</span>soba rezerwująca</legend>
@@ -66,7 +66,7 @@
 			<div class="form-group col-md-6">
 				<label class="control-label" for="email">Email</label>
 				<input name="email" type="email" class="form-control" ng-model="reservation.client.email" required form-validation>
-				<span><a href="">Istniejący klient - pobierz resztę danych</a></span>
+				<span><a href="" ng-click="getClientData()">Istniejący klient - pobierz resztę danych</a></span>
 				<span class="help-block" ng-show="reservationForm.email.$error.required && (!reservationForm.email.$pristine || reservationForm.$submitted)">To pole jest wymagane</span>
 				<span class="help-block" ng-show="reservationForm.email.$error.email && !reservationForm.email.$pristine">Wprowadź prawidłowy adres email</span>
 			</div>
@@ -91,12 +91,12 @@
 				<span class="help-block" ng-show="reservationForm.lastName.$invalid && (!reservationForm.lastName.$pristine || reservationForm.$submitted)">To pole jest wymagane</span>
 			</div>
 		</div>
+		<div class="alert alert-success text-center" role="alert" ng-show="reservationStatus == 'success'"><strong>Gratulacje!</strong> Twoja rezerwacja została zarejestrowana w systemie.</div>
+		<div class="alert alert-danger text-center" role="alert" ng-show="reservationStatus == 'fail'"><strong>Uwaga!</strong> Przy rejestracji wystąpił błąd. Sprawdź poprawność wprowadzonych danych.</div>
 		<div class="row">
 			<div class="form-group col-sm-offset-8 col-sm-4">
 				<button class="btn btn-lg btn-danger btn-block" ng-click="handleBookBtnClick()" type="submit">Zarezerwuj</button>
 			</div>
 		</div>
 	</form>
-	{{reservation}}
 </div>
-
