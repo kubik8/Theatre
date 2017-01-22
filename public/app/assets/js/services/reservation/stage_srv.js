@@ -3,7 +3,7 @@ stage.factory('StageSrv', function($resource) {
 		getTickets : {
 			method : 'GET',
 			params : {
-				source : 'TicketsPriceGroup'
+				source : 'tickets'
 			},
 			isArray : true
 		},
