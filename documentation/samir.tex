@@ -46,8 +46,8 @@
 
 %dane do złożenia strony tytułowej
 \title{Bazy danych bla bla}
-\engtitle{Rozproszone i obiektowe bazy danych}
-\author{Kamil Babicki, Samir Senhadri 200003}
+\engtitle{Rozproszone i obiektowe systemy bazy danych}
+\author{Kamil Babicki 200824, Samir Senhadri 200003}
 \supervisor{Dr inż. Robert Wójcik, W4/I-6}
 
 \field{Informatyka}
@@ -136,6 +136,47 @@ humidity=50.5&temperature=23.4&place_name=Laboratorium1&status=OK
 \caption{Przykładowa wiadomość przesłana przez urządzenie pomiarowo-nadawcze}
 \label{lst:exPOST}
 \end{listing}
+
+\chapter{Analiza wymagań}
+Tworzona aplikacja powinna realizować poniższe wymagania funkcjonalne dotyczące logiki biznesowej oraz wymagania niefunkcjonalne dotyczące zagadnień bezpieczeństwa czy sposobu działania.
+
+\section{Opis działania systemu}
+System będzie posiadał trzy serwery bazodanowe, na których zainstalowane będą bazy danych systemu rezerwacji biletów do teatru. Dostęp do danych będzie odbywał się poprzez przeglądarkę internetową, za pomocą specjalnie zaimplementowanej aplikacji umieszczonej na serwerze WWW. Stworzona aplikacja umożliwi sprawdzanie zajętości sal na wybrane spektakle oraz rezerwację biletów.
+
+\section{Wymagania funkcjonalne}
+Wymaganie funkcjonalne zostały przedstawione za pomocą diagramu przypadków użycia (Rys. \ref{fig:diagram_pu}).
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.75\textwidth]{images/diagram_pu.png}
+	\caption{Diagram przypadków użycia}
+	\label{fig:diagram_pu}
+\end{figure}
+
+W naszym systemie przewidziana została tylko jedna rola, jaką jest kasjer. Powinien on mieć możliwość przeglądania dokonanych rejestracji, a także wprowadzenia do systemu nowych. Przy opcji nowej rezerwacji, pracownik na podstawie informacji przekazanych przez klienta teatru, będzie miał możliwość wyboru sceny, terminu i wolnych miejsc na sali. Dokończenie procesu rezerwacji będzie wymagało wprowadzenia danych klienta. Jeżeli gość istnieje już w bazie danych, jego dane będzie można pobrać na podstawie adresu e-mail.
+
+\section{Wymagania niefunkcjonalne}
+Tworzona aplikacja ma być aplikacją webową. Umożliwi to użytkownikom dostęp do niej z niemal dowolnego urządzenia elektronicznego. Powinna być również responsywna, aby mimo różnych rozdzielczości ekranów zapewnić zadowalającą czytelność i funkcjonalność. Sam jej wygląd powinien być możliwie jak najprostszy, aby użytkownik nie czuł uczucia dyskomfortu podczas poruszania się po niej oraz by nie musiał poświęcić dużo czasu na nauczenie się jej obsługi.
+
+\subsection{Wykorzystane technologie i narzędzia}
+Dostęp  do  baz  danych  będzie  możliwy  za  pośrednictwem  odpowiednich  serwerów zarządzających bazami danych MySQL, a proces replikacji między nimi zostanie zrealizowany z wykorzystaniem programu MySQL Workbench. Ze stworzonego systemu baz danych będzie korzystać aplikacja webowa. Logika aplikacji była tworzona w języku Ruby. Natomiast warstwa prezentacji budowana była w HTML5, CSS3, Bootstrap, JavaScript i AngularJS. Do  specyfikacji  funkcji systemu wykorzystany zostanie język modelowania UML.
+
+\subsection{Wymagania dotyczące rozmiaru bazy danych}
+Baza danych stworzona zostanie do obsługi procesu rezerwacji biletów do teatru. Będzie to wymagało m.in. przechowywania danych o klientach, a także aktualnych rezerwacjach. Na stałe w bazie danych wprowadzone zostaną informacje o dostępnych salach. Informacje o aktualnie granych spektaklach, biletów na nie oraz terminarzu, nie będą wymagały dużej ilości miejsca. Najbardziej obciążone tabele bazy będą przechowywały dane klientów i rezerwacji. Zakładając, że w teatrze w danym okresie będzie granych kilka sztuk na różnych salach i w różnych terminach możemy spodziewać się, że dane o tym będą zapisane na co najmniej kilkaset rekordach. Jednakże informacje te będzie można usunąć po odbyciu się spektaklu, a więc baza danych nigdy nie powinna osiągnąć dużych rozmiarów.
+
+\subsection{Wymagania dotyczące bezpieczeństwa systemu}
+Najbardziej newralgiczne dane będą dotyczyły klientów teatru. W bazie będą przechowywane takie informacje jak numer telefonu, czy adres e-mail. Jednakże system został przeznaczony tylko dla pracowników teatru, a wcześniej wymienione dane nie są aż tak niebezpieczne by były dodatkowo szyfrowane. Dlatego przyjmujemy, że stworzony system nie wymaga dodatkowych zabezpieczeń.
+
+\section{Przyjęte założenia projektowe}
+W projekcie będzie zrealizowany 3-warstwowy model komunikacji klient/serwer w postaci tzw. „cienkiego klienta” (Rys. \ref{fig:system-diagram}). Dostęp  do  aplikacji  realizującej  funkcje  biznesowe  będzie realizowany poprzez podanie adresu serwera WWW. W projekcie zostaną wykorzystywane niejednorodne, relacyjne bazy danych.  Dostęp  do  systemu baz  danych  zostanie zrealizowany  w  oparciu  o funkcje aplikacji. Komunikacja w systemie baz danych będzie przebiegała zgodnie z modelem master slave. Zapis będzie możliwy tylko na serwer z rolą mastera, natomiast odczyt będzie możliwy z wszystkich trzech serwerów bazodanowych. W celu zrównoważenia obciążenia wykorzystany zostanie Load Balancing.
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.7\textwidth]{images/struktura_systemu.png}
+	\caption{Schemat systemu}
+	\label{fig:system-diagram}
+\end{figure}
+
 \chapter{Podsumowanie pracy}
 voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit, amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur?
 
