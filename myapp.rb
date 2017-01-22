@@ -146,8 +146,10 @@ get '/reservations' do
   reservations.each do |reservation|
   	spectaclePerformedsId = SeatReserved.where(reservations_id: reservation["id"]).pluck(:spectacle_performeds_id)
   	spectacleId = SpectaclePerformed.where(id: spectaclePerformedsId).pluck(:spectacles_id)
+  	customerId = reservation["customers_id"]
   	reservation["spectaclePerformeds"] = SpectaclePerformed.find(spectaclePerformedsId)
     reservation["spectacle_title"] = Spectacle.where(id: spectacleId).pluck(:title)[0]
+    reservation["client"] = Customer.find(customerId)
   end
   reservations.to_json
 end
