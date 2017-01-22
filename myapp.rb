@@ -33,9 +33,11 @@ end
 get '/TicketsPriceGroup/:id' do
   id = params[:id]
   content_type :json
-  @jsonToBeSend = TicketPriceGroup.find(id).to_json
+  @jsonToBeSend = TicketPriceGroup.where(id: id).to_json
   @jsonToBeSend = JSON.parse(@jsonToBeSend)
-  @jsonToBeSend[:price] = Ticket.where(id: id).pluck(:price)[0] 
+  @jsonToBeSend.each do |ticket|
+    ticket[:price] = Ticket.where(id: id).pluck(:price)[0]
+  end
   @jsonToBeSend.to_json
 end
 
@@ -84,10 +86,18 @@ get '/numberFive/:id' do
 end
 
 #6
-get '/client/:email' do
+get '/customer' do
   email = params[:email]
   content_type :json
   Customer.where(email: email)[0].to_json
+end
+
+#7
+post '/reservation/' do
+   spectaclePerformed = (params[:Spectacle_performed])
+   seats = (params[:Seats])
+   client = (params[:Client])
+
 end
 
 ######### below addresses are just for test / debug purposes
