@@ -17,7 +17,7 @@
 				<h5><label>Data: </label></h5>
 			</div>
 			<div class="col-md-10">
-				<select class="form-control" ng-model="reservation.spectaclePerformed" ng-options="f as f.date | date:'yyyy-MM-d, HH:mm' for f in spectaclePerformeds" ng-change="generateStage()"></select>
+				<select class="form-control" ng-model="reservation.spectaclePerformed" ng-options="f as f.date | date:'yyyy-MM-dd, HH:mm' for f in spectaclePerformeds" ng-change="generateStage()"></select>
 			</div>
 		</div>
 	</div>
