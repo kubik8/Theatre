@@ -86,7 +86,7 @@ stage.controller('StageCtrl', function($scope, $stateParams, SpectacleSrv, Stage
 
 		for(var i=0; i < $scope.reservation.selectedSeats.length; i++){
 			if($scope.reservation.selectedSeats[i].ticket != null){
-				$scope.reservation.totalPrice += $scope.reservation.selectedSeats[i].ticket.price;
+				$scope.reservation.totalPrice += parseFloat($scope.reservation.selectedSeats[i].ticket.price);
 			}
 		}
 	}

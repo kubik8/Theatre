@@ -16,7 +16,7 @@
 						<tr ng-repeat="reservation in reservations" ng-class="{'info' : reservation.id == selectedReservation.id}" ng-click="selectReservation(reservation)">
 							<td>{{reservation.id}}</td>
 							<td>{{reservation.client.name}} {{reservation.client.surname}}</td>
-							<td>{{reservation.title}}</td>
+							<td>{{reservation.spectacle_title}}</td>
 							<td class="text-right">
 								<a title="Pokaż" href="" ng-click="selectReservation(reservation)"><span class="glyphicon glyphicon-chevron-right"></span></a>
 							</td>
@@ -34,7 +34,7 @@
 				<legend>Spektakl</legend>
 				<div class="top-default">
 					<p class="data-headers">Tytuł Spektaklu</p>
-					<p class="data-text">{{selectedReservation.title}}</p>
+					<p class="data-text">{{selectedReservation.spectacle_title}}</p>
 				</div>
 				<div class="row top-default">
 					<div class="col-md-6">

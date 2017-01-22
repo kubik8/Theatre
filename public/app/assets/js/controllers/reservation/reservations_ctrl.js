@@ -13,7 +13,7 @@ spectacle.controller('ReservationCtrl', function($scope, $state, ReservationSrv)
 	$scope.reservations = [
 		{
 			"id" : 1,
-			"title" : "Dziady",
+			"spectacle_title" : "Dziady",
 			"selectedSeats":[
 				{"row":2,"number":31,"status":"selected","ticket":
 					{"id":1,"spectacles_id":1,"ticket_price_groups_id":1,"price":"42.99","name":"Normalny"}},
@@ -27,7 +27,7 @@ spectacle.controller('ReservationCtrl', function($scope, $state, ReservationSrv)
 		},
 		{
 			"id" : 2,
-			"title" : "Burza",
+			"spectacle_title" : "Burza",
 			"selectedSeats":[
 				{"row":2,"number":31,"status":"selected","ticket":
 					{"id":1,"spectacles_id":1,"ticket_price_groups_id":1,"price":"42.99","name":"Normalny"}},
