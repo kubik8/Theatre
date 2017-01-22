@@ -30,13 +30,13 @@ get '/spectacles/:id' do
 end
 
 #3
-get '/TicketsPriceGroup/:id' do
+get '/tickets/:id' do
   id = params[:id]
   content_type :json
-  @jsonToBeSend = TicketPriceGroup.where(id: id).to_json
+  @jsonToBeSend = Ticket.where(spectacles_id: id).to_json
   @jsonToBeSend = JSON.parse(@jsonToBeSend)
   @jsonToBeSend.each do |ticket|
-    ticket[:price] = Ticket.where(id: id).pluck(:price)[0]
+  	ticket["name"] = TicketPriceGroup.where(id: ticket["ticket_price_groups_id"]).pluck(:name)[0]
   end
   @jsonToBeSend.to_json
 end
@@ -93,11 +93,20 @@ get '/customer' do
 end
 
 #7
-post '/reservation/' do
-   spectaclePerformed = (params[:Spectacle_performed])
-   seats = (params[:Seats])
-   client = (params[:Client])
+post '/reservation' do
+   spectaclePerformed = (params[:spectaclePerformeds])
+   seats = (params[:selectedSeats])
+   client = (params[:client])
+   totalPrice = (params[:totalPrice])
 
+   puts("spectaclePerformed:")
+   puts(spectaclePerformed)
+   puts("seats:")
+   puts(seats)
+   puts("client:")
+   puts(client)
+   puts("totalPrice:")
+   puts(totalPrice)
 end
 
 ######### below addresses are just for test / debug purposes
@@ -140,6 +149,11 @@ end
 get '/TicketsPriceGroup' do
   content_type :json
   TicketPriceGroup.all.to_json
+end
+
+get '/tickets' do
+  content_type :json
+  Ticket.all.to_json
 end
 
 get '/SpectaclePerformeds' do
