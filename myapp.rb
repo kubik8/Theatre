@@ -79,6 +79,7 @@ get '/numberFive/:id' do
   	seatHash = Hash.new
   	seatHash["row"] = seat[0]
   	seatHash["number"] = seat[1]
+  	seatHash["id"] = seat[2]
     seatHash["status"] = SeatReserved.where(spectacle_performeds_id: id, seats_id: seat[2]).exists? # is seat reserved?
   	seats.push(seatHash)
   end
@@ -95,23 +96,47 @@ end
 #7
 post '/reservation' do
    payload = JSON.parse(request.body.read)
-   puts("payload: ")
-	puts(payload)
+ #   puts("payload: ")
+	# puts(payload)
    selectedSeats = payload["selectedSeats"]
    spectaclePerformed = payload["spectaclePerformed"]
    client = payload["client"]
    totalPrice = payload["totalPrice"]
-   puts("selectedSeats:")
-   puts(selectedSeats)
-   puts("spectaclePerformed:")
-   puts(spectaclePerformed)
-   puts("client:")
-   puts(client)
-   puts("totalPrice:")
-   puts(totalPrice)
-   spectaclePerformed.delete("name")
-   spectaclePerformed.delete("id")
-   SpectaclePerformed.create(spectaclePerformed)
+   # puts("selectedSeats:")
+   # puts(selectedSeats)
+   # puts("selectedSeats[0][id]:")
+   # puts(selectedSeats[0]["id"])
+   # puts("selectedSeats[0][ticket]:")
+   # puts(selectedSeats[0]["ticket"])
+   # puts("selectedSeats[0][ticket][id]:")
+   # puts(selectedSeats[0]["ticket"]["id"])
+   # puts("spectaclePerformed:")
+   # puts(spectaclePerformed)
+   # puts("spectaclePerformed[id]:")
+   # puts(spectaclePerformed["id"])
+   # puts("client:")
+   # puts(client)
+   # puts("totalPrice:")
+   # puts(totalPrice)
+   if Customer.where(id: client["id"]).exists?
+   	 # puts("jestem w ifie")
+     reservation = Reservation.create(customers_id: client["id"], price: totalPrice)
+   else
+   	 # puts("jestem w elsie")
+     client.delete("id")
+     begin
+     client2 = Customer.create(client)
+     # puts("client2: ")
+     # puts(client2)
+     rescue
+     end
+     reservation = Reservation.create(customers_id: client2["id"], price: totalPrice)
+   end
+   
+   SeatReserved.create(spectacle_performeds_id: spectaclePerformed["id"],
+   	seats_id: selectedSeats[0]["id"],
+   	tickets_id: selectedSeats[0]["ticket"]["id"],
+   	reservations_id: reservation["id"])
 
 
 end
@@ -161,6 +186,11 @@ end
 get '/tickets' do
   content_type :json
   Ticket.all.to_json
+end
+
+get '/reservations' do
+  content_type :json
+  Reservation.all.to_json
 end
 
 get '/SpectaclePerformeds' do
