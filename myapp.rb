@@ -83,6 +83,13 @@ get '/numberFive/:id' do
   seats.to_json
 end
 
+#6
+get '/client/:email' do
+  email = params[:email]
+  content_type :json
+  Customer.where(email: email)[0].to_json
+end
+
 ######### below addresses are just for test / debug purposes
 
 post '/submit' do
