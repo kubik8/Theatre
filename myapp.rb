@@ -53,7 +53,7 @@ get '/ScenesForSpectacle/:id' do
     stagesHash["name"] = Stage.where(id: stage).pluck(:name)[0]
     stages.push(stagesHash)
   end
-  stages.to_json
+  stages.uniq!.to_json
 end
 
 #4.2
@@ -94,19 +94,26 @@ end
 
 #7
 post '/reservation' do
-   spectaclePerformed = (params[:spectaclePerformeds])
-   seats = (params[:selectedSeats])
-   client = (params[:client])
-   totalPrice = (params[:totalPrice])
-
+   payload = JSON.parse(request.body.read)
+   puts("payload: ")
+	puts(payload)
+   selectedSeats = payload["selectedSeats"]
+   spectaclePerformed = payload["spectaclePerformed"]
+   client = payload["client"]
+   totalPrice = payload["totalPrice"]
+   puts("selectedSeats:")
+   puts(selectedSeats)
    puts("spectaclePerformed:")
    puts(spectaclePerformed)
-   puts("seats:")
-   puts(seats)
    puts("client:")
    puts(client)
    puts("totalPrice:")
    puts(totalPrice)
+   spectaclePerformed.delete("name")
+   spectaclePerformed.delete("id")
+   SpectaclePerformed.create(spectaclePerformed)
+
+
 end
 
 ######### below addresses are just for test / debug purposes
