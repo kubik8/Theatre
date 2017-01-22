@@ -7,6 +7,16 @@
 
 }
 
+p.data-headers {
+  font-size: medium;
+  font-variant: small-caps;
+  color: #777;
+}
+
+p.data-text {
+  font-size: large;
+}
+
 .glyphicon.large-icon {
     font-size: 150px;
 }

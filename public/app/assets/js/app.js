@@ -1,4 +1,4 @@
-var app = angular.module('TheatreApp', [ 'ngResource', 'ui.router', 'ta.sprectacle', 'ta.stage']);
+var app = angular.module('TheatreApp', [ 'ngResource', 'ui.router', 'ta.sprectacle', 'ta.stage', 'ta.reservation']);
 
 
 app.config(function($stateProvider, $urlRouterProvider) {
@@ -22,6 +22,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
     	url: '/spectacle/:id',
     	controller: 'StageCtrl',
     	templateUrl: "assets/views/reservation/stage.html"
+    })
+    .state('reservation.reservationsList', {
+        url: '/reservations-list',
+        controller: 'ReservationCtrl',
+        templateUrl: "assets/views/reservation/reservations.html"
     });
     
     $urlRouterProvider.otherwise("/");
