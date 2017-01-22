@@ -131,15 +131,25 @@ post '/reservation' do
      rescue
      end
      reservation = Reservation.create(customers_id: client2["id"], price: totalPrice)
-   end
-   
+   end   
    SeatReserved.create(spectacle_performeds_id: spectaclePerformed["id"],
    	seats_id: selectedSeats[0]["id"],
    	tickets_id: selectedSeats[0]["ticket"]["id"],
    	reservations_id: reservation["id"])
-
-
 end
+
+#8
+get '/reservations' do
+  content_type :json
+  reservations = Reservation.all.to_json
+  reservations = JSON.parse(reservations)
+  reservations.each do |reservation|
+  	spectaclePerformedsId = SeatReserved.where(reservations_id: reservation["id"]).pluck(:spectacle_performeds_id)
+    reservation["spectaclePerformeds"] = SpectaclePerformed.find(spectaclePerformedsId)
+  end
+  reservations.to_json
+end
+
 
 ######### below addresses are just for test / debug purposes
 
@@ -188,7 +198,7 @@ get '/tickets' do
   Ticket.all.to_json
 end
 
-get '/reservations' do
+get '/reservationss' do
   content_type :json
   Reservation.all.to_json
 end
