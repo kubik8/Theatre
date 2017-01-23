@@ -318,16 +318,16 @@ Ostatni widok jaki został zaimplementowany to widok z listą aktualnie dokonany
 
 \begin{figure}[!ht]
 	\centering
-	\includegraphics[width=\textwidth]{images/stages.png}
-	\caption{Widok przedstawiający przykładową rezerwację}
-	\label{fig:stages}
+	\includegraphics[width=\textwidth]{images/reservations.png}
+	\caption{Widok z listą dokonanych rezerwacji}
+	\label{fig:reservations}
 \end{figure}
 
 \begin{figure}[!ht]
 	\centering
-	\includegraphics[width=\textwidth]{images/reservations.png}
-	\caption{Widok z listą dokonanych rezerwacji}
-	\label{fig:reservations}
+	\includegraphics[width=\textwidth]{images/stages.png}
+	\caption{Widok przedstawiający przykładową rezerwację}
+	\label{fig:stages}
 \end{figure}
 
 \chapter{Testowanie systemu}
@@ -345,14 +345,31 @@ W celu sprawdzenia poprawności działania systemu przeprowadzono proces rezerwa
 
 \begin{figure}[!ht]
 	\centering
-	\includegraphics[width=0.6\textwidth]{images/app_db_show_clients.png}
+	\includegraphics[width=0.5\textwidth]{images/app_db_show_clients.png}
 	\caption{Potwierdzenie wykonania rezerwacji}
 	\label{fig:app-db-show-clients}
 \end{figure}
 
 
 \section{Testowanie mechanizmów bezpieczeństwa bazy danych}
-Bezpieczeństwo bazy danych może 
+Bezpieczeństwo bazy danych może zostać pokazane na podstawie tabeli seats\_reserved, która odpowiada za przechowywanie informacji o zarejestrowanych miejscach. W tej tabeli zostało ustawione ograniczenie niepozwalające wprowadzić rezerwację na już zajęte miejsce dla danego wystawienia spektaklu. Aktualne wypełnienie bazy danych został przedstawione na rysunku \ref{fig:app_db_seats_reserved}. Dla sprawdzenia omówionych mechanizmów bezpieczeństwa została wykonana odpowiednia komenda. Jej treść oraz zwrócony wynik zostały zawarte na rysunku \ref{fig:app_db_insert_fail}. Jak widać ograniczenie ui\_seat\_spectacle\_performed zwraca błąd nie pozwalając na dodanie niepoprawnych danych do bazy.
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.6\textwidth]{images/app_db_seats_reserved.png}
+	\caption{Zawartość tabeli seats\_reserved}
+	\label{fig:app_db_seats_reserved}
+\end{figure}
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=\textwidth]{images/app_db_insert_fail.png}
+	\caption{Próba zapisania dwóch osób na jedno miejsce zakończona niepowodzeniem}
+	\label{fig:app_db_insert_fail}
+\end{figure}
+
+\section{Wnioski z testów}
+coś
 
 \chapter{Podsumowanie pracy}
 voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit, amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur?
