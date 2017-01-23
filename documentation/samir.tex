@@ -290,9 +290,6 @@ Tak jak przy masterze ustawiane jest id oraz opcja replicate-do-db wskazująca b
 
 Na początku wykonywane są komendy odpowiedzialne za ewentualne zatrzymanie działania slave'a i zresetowanie wszelkich ustawionych na nim opcji. W następnej komendzie opcja MASTER\_LOG\_FILE i MASTER\_LOG\_POS to nazwa pliku i pozycja jaką można odczytać po wyświetleniu statusu mastera (Rys. \ref{fig:wb-master-status}). Dalej serwer jest uruchamiany z wykorzystaniem użytkownika replication\_user. Na samym końcu umieszczona została komenda wyświetlająca aktualny status serwera typu slave. O prawidłowości wykonanej replikacji świadczą kolumny Slave\_IO\_Running i Slave\_SQL\_Running, które powinny być ustawione na wartość YES.
 
-
-
-
 \section{Realizacja elementów aplikacji}
 
 \subsection{Realizacja części klienckiej}
@@ -336,11 +333,26 @@ Ostatni widok jaki został zaimplementowany to widok z listą aktualnie dokonany
 \chapter{Testowanie systemu}
 Testowanie zastało opisane w dwóch podrozdziałach dotyczących odpowiednio testowania działania systemu i testowania mechanizmów bezpieczeństwa bazy danych.
 
-\section{Testowanie poprawoności działania systemu}
-Coś
+\section{Testowanie poprawności działania systemu}
+W celu sprawdzenia poprawności działania systemu przeprowadzono proces rezerwacji biletów dla fikcyjnego klienta teatru. Proces ten zakończył się prawidło. Oznacza to, żę widoczne na rysunku \ref{fig:app-reservation-success} dane klienta powinny zostać zapisane zarówno w bazie trzymanej na serwerze typu master, jak i w bazach dwóch pozostałych serwerów typu slave. W celu sprawdzenia tego wykonano odpowiednią komendę na wszystkich serwerach i na wszystkich otrzymano taki sam wynik zaprezentowany na rysunku \ref{fig:app-db-show-clients}.
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{images/app_reservation_success.png}
+	\caption{Potwierdzenie wykonania rezerwacji}
+	\label{fig:app-reservation-success}
+\end{figure}
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.6\textwidth]{images/app_db_show_clients.png}
+	\caption{Potwierdzenie wykonania rezerwacji}
+	\label{fig:app-db-show-clients}
+\end{figure}
+
 
 \section{Testowanie mechanizmów bezpieczeństwa bazy danych}
-coś
+Bezpieczeństwo bazy danych może 
 
 \chapter{Podsumowanie pracy}
 voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit, amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur?
