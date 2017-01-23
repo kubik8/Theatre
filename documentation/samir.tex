@@ -221,6 +221,52 @@ Dodatkowo na odpowiednie tabele nałożone zostały następujące ograniczenia i
 \section{Projekt aplikacji użytkownika}
 coś ???
 
+\chapter{Implementacja systemu}
+W tym rozdziale opisany został sposób w jaki stworzona została struktura bazy danych oraz jak wyglądała implementacja logiki biznesowej aplikacji.
+
+\section{Realizacja bazy danych}
+Baza danych została zaimplementowana w podejściu Database First. Została więc zaprojektowana, a następnie wdrożona za pomocą programu MySQL Workbench. Projektowanie odbywało się całkowicie w trybie graficznym. Następnie korzystając z narzędzi programu wygenerowany został skrypt sql tworzący bazę danych, który został wczytany do serwerów typu slave.
+
+\section{Realizacja elementów aplikacji}
+
+\subsection{Realizacja części klienckiej}
+Część kliencka została zrealizowana jako aplikacja webowa z wykorzystaniem przede wszystkim frameworków AngularJS i Bootstrap. Pierwszy z nich odpowiedzialny był za połączenie z serwerem, przygotowywanie danych do wyświetlenia, operacji na nich, a także walidacji. Drugi został wykorzystany w celu lepszej organizacji treści na stronie i do utrzymania responsywności strony.
+
+Przy wejściu do aplikacji pokazuje się strona startowa (Rys. \ref{fig:main-page}). Z niej użytkownik systemu może przejść do panelu rezerwacji, wciskając widoczny przycisk. Po wykonaniu tej czynności wyświetla się strona z listą spektakli (Rys. \ref{fig:spectacles}). Po wyborze jednego z nich przechodzi się do następnego widoku (Rys. \ref{fig:stages}). 
+
+W tym momencie pracownik ma możliwość zarezerwowania biletów dla klienta. Na początku powinien wybrać scenę i datę kiedy ma odbyć się spektakl. Po wykonaniu tego na stronie pojawi się model przedstawiający rozłożenie miejsc na sali. Siedzeniom przypisane zostały odpowiednie numery i różne kolory. Kolorem zielonym oznaczone zostały dostępne miejsca. Kolorem siwym wyróżniono miejsca już przez kogoś zarezerwowane. Natomiast kolorem czerwonym oznaczane są miejsca wybrane dla aktualnie obsługiwanego klienta. Poniżej sceny widoczna jest sekcja "Wybrane miejsca", gdzie ponownie wypisane zostały wybrane miejsca, ale dodatkowo do każdego z nich należy przypisać bilet. W prezentowanym przypadku mamy doczynienie z biletem normalnym i ulgowym. Jednakże nazwy i oczywiście ceny dla biletów można definiować własne. Po wyborze biletów należy już tylko uzupełnić dane o kliencie. Wszystkie te dane są odpowiednio walidowane, a w przypadku niepoprawnie wprowadzonych danych, użytkownikowi wyświetlany jest krótki komunikat tuż przy błędnym polu. Jeżeli klient dokonywał wcześniej jakieś inne rezerwacje, jego dane powinny znajdować się w systemie. W celu ich pobrania, pod polem "Email" umieszczony został link, który pobiera informację o kliencie na podstawie wprowadzonego adresu e-mail. Po uzupełnieniu wszystkich wymaganych informacji należy kliknąć przycisk "Zarezerwuj". Po krótkiej chwili pod formularzem powinien pojawić się komunikat czy rezerwacja się powiodła. 
+
+Ostatni widok jaki został zaimplementowany to widok z listą aktualnie dokonanych rezerwacji (Rys. \ref{fig:reservations}). W lewej kolumnie znajduje się wspomniana lista, a w prawej szczegóły o wybranej rezerwacji.
+
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=\textwidth]{images/main_page.png}
+	\caption{Strona główna aplikacji}
+	\label{fig:main-page}
+\end{figure}
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=\textwidth]{images/spectacles.png}
+	\caption{Widok z listą spektakli}
+	\label{fig:spectacles}
+\end{figure}
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=\textwidth]{images/stages.png}
+	\caption{Widok przedstawiający przykładową rezerwację}
+	\label{fig:stages}
+\end{figure}
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=\textwidth]{images/reservations.png}
+	\caption{Widok z listą dokonanych rezerwacji}
+	\label{fig:reservations}
+\end{figure}
+
 \chapter{Podsumowanie pracy}
 voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit, amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur?
 
