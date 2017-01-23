@@ -165,7 +165,7 @@ Dostęp  do  baz  danych  będzie  możliwy  za  pośrednictwem  odpowiednich  s
 Baza danych stworzona zostanie do obsługi procesu rezerwacji biletów do teatru. Będzie to wymagało m.in. przechowywania danych o klientach, a także aktualnych rezerwacjach. Na stałe w bazie danych wprowadzone zostaną informacje o dostępnych salach. Informacje o aktualnie granych spektaklach, biletów na nie oraz terminarzu, nie będą wymagały dużej ilości miejsca. Najbardziej obciążone tabele bazy będą przechowywały dane klientów i rezerwacji. Zakładając, że w teatrze w danym okresie będzie granych kilka sztuk na różnych salach i w różnych terminach możemy spodziewać się, że dane o tym będą zapisane na co najmniej kilkaset rekordach. Jednakże informacje te będzie można usunąć po odbyciu się spektaklu, a więc baza danych nigdy nie powinna osiągnąć dużych rozmiarów.
 
 \subsection{Wymagania dotyczące bezpieczeństwa systemu}
-Najbardziej newralgiczne dane będą dotyczyły klientów teatru. W bazie będą przechowywane takie informacje jak numer telefonu, czy adres e-mail. Jednakże system został przeznaczony tylko dla pracowników teatru, a wcześniej wymienione dane nie są aż tak niebezpieczne by były dodatkowo szyfrowane. Dlatego przyjmujemy, że stworzony system nie wymaga dodatkowych zabezpieczeń.
+Najbardziej newralgiczne dane będą dotyczyły klientów teatru. W bazie będą przechowywane takie informacje jak numer telefonu, czy adres e-mail. Jednakże system został przeznaczony tylko dla pracowników teatru, a wcześniej wymienione dane nie są aż tak niebezpieczne by były dodatkowo szyfrowane. Dlatego przyjmujemy, że stworzony system nie wymaga dodatkowych zabezpieczeń. Za bezpieczeństwo wprowadzania danych odpowiadać będą zaimplementowane ograniczenia integralności bazy danych.
 
 \section{Przyjęte założenia projektowe}
 W projekcie będzie zrealizowany 3-warstwowy model komunikacji klient/serwer w postaci tzw. „cienkiego klienta” (Rys. \ref{fig:system-diagram}). Dostęp  do  aplikacji  realizującej  funkcje  biznesowe  będzie realizowany poprzez podanie adresu serwera WWW. W projekcie zostaną wykorzystywane niejednorodne, relacyjne bazy danych.  Dostęp  do  systemu baz  danych  zostanie zrealizowany  w  oparciu  o funkcje aplikacji. Komunikacja w systemie baz danych będzie przebiegała zgodnie z modelem master slave. Zapis będzie możliwy tylko na serwer z rolą mastera, natomiast odczyt będzie możliwy z wszystkich trzech serwerów bazodanowych. W celu zrównoważenia obciążenia wykorzystany zostanie Load Balancing.
@@ -227,6 +227,72 @@ W tym rozdziale opisany został sposób w jaki stworzona została struktura bazy
 \section{Realizacja bazy danych}
 Baza danych została zaimplementowana w podejściu Database First. Została więc zaprojektowana, a następnie wdrożona za pomocą programu MySQL Workbench. Projektowanie odbywało się całkowicie w trybie graficznym. Następnie korzystając z narzędzi programu wygenerowany został skrypt sql tworzący bazę danych, który został wczytany do serwerów typu slave.
 
+\section{Realizacja mechanizmu replikacji}
+Replikacja baz danych została przeprowadzona z wykorzystaniem programu MySQL Workbench. Przed przystąpieniem do jakich kolwiek czynności należy upewnić czy wszystkie bazy posiadają dokładnie taką samą strukturę. W naszym systemie struktura została zaprojektowana, a następnie wprowadzona na serwerze typu master. Po sprawdzeniu poprawności jej działania, korzystając z wcześniej wymienionego programu, struktura bazy została wyeksportowana w postaci skryptu sql. Następnie skrypt ten został wczytany na serwery typu slave. Opcja eksportu i importu bazy danych znajduje się w lewym menu programu w grupie "Management" (Rys. \ref{fig:wb-management}).
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.3\textwidth]{images/wb_management.png}
+	\caption{Grupa opcji Management programu MySQL Workbench}
+	\label{fig:wb-management}
+\end{figure}
+
+Następnie dla celów replikacji w bazie danych typu master stworzony został użytkownik replication\_user o uprawnieniach przedstawionych na rysunku \ref{fig:wb-users-privileges}.
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/wb_users_privileges.png}
+	\caption{Uprawnienia użytkownika replication\_user}
+	\label{fig:wb-users-privileges}
+\end{figure}
+
+Następnie wybierając opcję "Options File" (Rys. \ref{fig:wb-instance}) przechodzi się do ustawień serwera bazy danych. Na serwerze mastera należało aktywować i ustawić następujące opcje:
+
+\begin{itemize}
+	\item server\_id na 1,
+	\item binlog-do-db na nazwę bazy danych theatre,
+	\item log-bin na mysql55-bin.
+\end{itemize}
+
+Pierwsza opcja dotyczy nadania serwerowi numeru id, dzięki czemu możliwa będzie komunikacja z innymi serwerami. W drugiej określa się bazę danych jaka będzie podlegać replikacji. W ostatniej ustawia się nazwę dla pliku w którym będą przechowywane logi z działania serwera.
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.3\textwidth]{images/wb_instance.png}
+	\caption{Grupa opcji Instance programu MySQL Workbench}
+	\label{fig:wb-instance}
+\end{figure}
+
+Po zatwierdzeniu wprowadzonych danych warto zrestartować serwer, a następnie zweryfikować status mastera za pomocą odpowiedniej komendy, przedstawionej wraz z wynikiem na rysunku \ref{fig:wb-master-status}.
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{images/wb_master_status.png}
+	\caption{Wyświetlenie statusu serwera typu master}
+	\label{fig:wb-master-status}
+\end{figure}
+
+Następnie należy wykonać konfigurację serwerów typu slave. Ponownie wybieramy opcję "Options File" (Rys. \ref{fig:wb-instance}), gdzie należy ustawić następujące opcje:
+
+\begin{itemize}
+	\item server\_id na liczbę większą od 1,
+	\item replicate-do-db na nazwę bazy danych theatre.
+\end{itemize}
+
+Tak jak przy masterze ustawiane jest id oraz opcja replicate-do-db wskazująca bazę jaka ma być replikowana. Po zatwierdzeniu wprowadzonych danych należy zrestartować serwer. Serwer typu slave nie jest jeszcze poprawnie ustawiony, należy wykonać jeszcze kilka komend, które wraz z wynikiem przedstawione zostały na rysunku \ref{fig:wb-slave-status-cmd}.
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=\textwidth]{images/wb_slave_status_cmd.png}
+	\caption{Ustawienie oraz sprawdzenie statusu serwera typu slave}
+	\label{fig:wb-slave-status-cmd}
+\end{figure}
+
+Na początku wykonywane są komendy odpowiedzialne za ewentualne zatrzymanie działania slave'a i zresetowanie wszelkich ustawionych na nim opcji. W następnej komendzie opcja MASTER\_LOG\_FILE i MASTER\_LOG\_POS to nazwa pliku i pozycja jaką można odczytać po wyświetleniu statusu mastera (Rys. \ref{fig:wb-master-status}). Dalej serwer jest uruchamiany z wykorzystaniem użytkownika replication\_user. Na samym końcu umieszczona została komenda wyświetlająca aktualny status serwera typu slave. O prawidłowości wykonanej replikacji świadczą kolumny Slave\_IO\_Running i Slave\_SQL\_Running, które powinny być ustawione na wartość YES.
+
+
+
+
 \section{Realizacja elementów aplikacji}
 
 \subsection{Realizacja części klienckiej}
@@ -266,6 +332,15 @@ Ostatni widok jaki został zaimplementowany to widok z listą aktualnie dokonany
 	\caption{Widok z listą dokonanych rezerwacji}
 	\label{fig:reservations}
 \end{figure}
+
+\chapter{Testowanie systemu}
+Testowanie zastało opisane w dwóch podrozdziałach dotyczących odpowiednio testowania działania systemu i testowania mechanizmów bezpieczeństwa bazy danych.
+
+\section{Testowanie poprawoności działania systemu}
+Coś
+
+\section{Testowanie mechanizmów bezpieczeństwa bazy danych}
+coś
 
 \chapter{Podsumowanie pracy}
 voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit, amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur?
