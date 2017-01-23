@@ -177,6 +177,50 @@ W projekcie będzie zrealizowany 3-warstwowy model komunikacji klient/serwer w p
 	\label{fig:system-diagram}
 \end{figure}
 
+\chapter{Projekt systemu}
+W tym rozdziale przedstawiony został sposób w jaki zaprojektowana będzie aplikacja i jej baza danych.
+
+\section{Projekt bazy danych}
+Na etapie projektowania okazało się, że do właściwej pracy systemu będzie potrzebna baza danych składająca się z dziewięciu tabel.
+
+\subsection{Model logiczny}
+Model logiczny bazy danych został przedstawiony na rysunku \ref{fig:logical-data-model}.
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=\textwidth]{images/logiczny.png}
+	\caption{Schemat logiczny bazy danych}
+	\label{fig:logical-data-model}
+\end{figure}
+
+\subsection{Model fizyczny i ograniczenia integralności bazy danych}
+Fizyczny model bazy danych (Rys. \ref{fig:physical-data-model}) został stworzony dla bazy MySQL. W modelu tym obok nazw kolumn w tabelach przedstawione zostały oczekiwane typy danych.
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=\textwidth]{images/fizyczny.png}
+	\caption{Schemat fizyczny bazy danych}
+	\label{fig:physical-data-model}
+\end{figure}
+
+Dodatkowo na odpowiednie tabele nałożone zostały następujące ograniczenia integralności:
+ 
+\begin{itemize}
+	\item customers - na wszystkie kolumny not-null (NN), dodatkowo unique (U) na kolumnę email,
+	\item reservations - na wszystkie kolumny NN,
+	\item tickets - na wszystkie kolumny NN, dodatkowo U na parę kolumn spectacles\_id i ticket\_price\_groups\_id,
+	\item ticket\_price\_groups - na wszystkie kolumny NN, na kolumnę name U,
+	\item seat\_reserveds - na wszystkie kolumny NN, na parę spectacle\_performeds\_id i seats\_id U,
+	\item spectacle\_performeds - na wszystkie kolumny NN, na parę stages\_id i date U,
+	\item spectacles - na wszystkie kolumny NN,
+	\item seats - na wszystkie kolumny NN, na grupę row, number i stages\_id U,
+	\item stages - na wszystkie kolumny NN, na kolumnę name U.
+	
+\end{itemize}
+
+\section{Projekt aplikacji użytkownika}
+coś ???
+
 \chapter{Podsumowanie pracy}
 voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit, amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur?
 
