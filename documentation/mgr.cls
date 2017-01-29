@@ -236,8 +236,8 @@
 
 %definicje danych do utworzenia strony tyułowej
 \if@pl
-\newcommand{\@naglowek}{PROJEKT}
-\newcommand{\@napisProwadzacy}{Prowadz\k{a}cy prac\k{e}:}
+\newcommand{\@naglowek}{Rozproszony system bazodanowy przeznaczony do rezerwacji biletów do teatru}
+\newcommand{\@napisProwadzacy}{Prowadz\k{a}cy zaj\k{e}cia:}
 \newcommand{\@napisOcena}{Ocena pracy:}
 \fi
 \if@en
