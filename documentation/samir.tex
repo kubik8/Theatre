@@ -179,7 +179,17 @@ Dodatkowo na odpowiednie tabele nałożone zostały następujące ograniczenia i
 \end{itemize}
 
 \section{Projekt aplikacji użytkownika}
-coś ???
+Aplikacja użytkownika składa się z dwóch części:
+\begin{itemize}
+\item Backend - program napisany w języku Ruby z wykorzystaniem biblioteki Sinatra. Komunikuje się on z bazą danych oraz odpowiada na żądania frontendu. Działa na serwerze
+\item Frontend - program napisany przy użyciu platformy programistycznej AngularJS w języku JavaScript. Działa na urządzeniu użytkownika.
+\end{itemize}
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=\textwidth]{images/aplikacja.png}
+	\caption{Schemat działania aplikacji użytkownika}
+	\label{fig:aplikacja}
+\end{figure}
 
 \chapter{Implementacja systemu}
 W tym rozdziale opisany został sposób w jaki stworzona została struktura bazy danych oraz jak wyglądała implementacja logiki biznesowej aplikacji.
@@ -314,12 +324,8 @@ W celu sprawdzenia poprawności działania systemu przeprowadzono proces rezerwa
 \section{Testowanie mechanizmów bezpieczeństwa bazy danych}
 Bezpieczeństwo bazy danych może zostać pokazane na podstawie tabeli seats\_reserved, która odpowiada za przechowywanie informacji o zarejestrowanych miejscach. W tej tabeli zostało ustawione ograniczenie niepozwalające wprowadzić rezerwację na już zajęte miejsce dla danego wystawienia spektaklu. Aktualne wypełnienie bazy danych został przedstawione na rysunku \ref{fig:app_db_seats_reserved}. Dla sprawdzenia omówionych mechanizmów bezpieczeństwa została wykonana odpowiednia komenda. Jej treść oraz zwrócony wynik zostały zawarte na rysunku \ref{fig:app_db_insert_fail}. Jak widać ograniczenie ui\_seat\_spectacle\_performed zwraca błąd nie pozwalając na dodanie niepoprawnych danych do bazy.
 
-\begin{figure}[!ht]
-	\centering
-	\includegraphics[width=0.6\textwidth]{images/app_db_seats_reserved.png}
-	\caption{Zawartość tabeli seats\_reserved}
-	\label{fig:app_db_seats_reserved}
-\end{figure}
+
+
 
 \begin{figure}[!ht]
 	\centering
@@ -329,28 +335,10 @@ Bezpieczeństwo bazy danych może zostać pokazane na podstawie tabeli seats\_re
 \end{figure}
 
 \section{Wnioski z testów}
-coś
-
+Aplikacja działa poprawnie i zgodnie z przewidywaniami.
 \chapter{Podsumowanie pracy}
-voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit, amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur?
-
-Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Nemo enim ipsam voluptatem, quia voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit, amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem evoluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit, amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur?
-
-Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Nemo enim ipsam voluptatem, quia voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit, amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem evoluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit, amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur?
-
-Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Nemo enim ipsam voluptatem, quia voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit, amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eję danych na stronie
-internetowej, co zwiększa liczbę zastosowań systemu.
- 
-Dalszy rozwój projektu może zakładać:
-\begin{itemize}
-\item projekt obwodfgsgfsgudowy ursządzenigsdo-nadawczego,
-\item optymalizagfdsgsgsfgso mają być
-wyświetlane pomiary,
-\item możliwsgfsdgfsów do pliku.
-\item powiadamianie usgdfgsdfgczeniu mierzonej wielkości
-fizycznej,
-\item sterowaniesdgsdfgscję internetową.
-\end{itemize}
+W trakcie prac nad realizacją projektu udało się wykorzystać mechanizm replikacji master-slave. Do ich konfiguracji wykorzystane zostały wirtualne maszyny z systemami operacyjnymi Debian oraz Ubuntu. Zrealizowana została również aplikacja kliencka składająca się z części działającej na serwerze zwanej backendem napisanej w języku Ruby łącząca się z bazą danych oraz częścią działającą na urządzeniu użytkownika, która została zaimplementowana w środowisku programistycznym AngularJS. Cały projekt zakończył się sukcesem a działanie programu klienckiego spełnia wszystkie
+wcześniejsze założenia.
  %utworzenie w
                                              %spisietresci pozycji
                                              %Bibliografia
@@ -385,10 +373,10 @@ fizycznej,
 %opcjonalnie może się tu pojawić spis rysunków i tabel
 \listoffigures
 \addcontentsline{toc}{chapter}{Spis rysunków}
- \listoftables
-\addcontentsline{toc}{chapter}{Spis tabel}
+% \listoftables
+%\addcontentsline{toc}{chapter}{Spis tabel}
 % \listoflistings
- \lstlistoflistings
- \addcontentsline{toc}{chapter}{Spis listingów}
+% \lstlistoflistings
+% \addcontentsline{toc}{chapter}{Spis listingów}
 
 \end{document}
